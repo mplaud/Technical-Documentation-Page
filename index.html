@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Pandas Basics</title>
+
+  </head>
+  
+  <nav id="navbar">
+    <header>
+      <img src="https://pandas.pydata.org/docs/_static/pandas.svg" style="width:250px; height:70px;" >
+      <p>DataFrame Basics</p></header>
+    <ul>
+      <li><a class="nav-link" href="#Introduction">Introduction</a></li>
+      <li>
+        <a class="nav-link" href="#File_Formats_and_Data_Sources"
+          >File Formats and Data Sources</a
+        >
+      </li>
+      <li>
+        <a class="nav-link" href="#Selecting_subsets_of_a_table">Selecting subsets of a table</a>
+      </li>
+      <li><a class="nav-link" href="#Join/Merge/Concatenate">Join/Merge/Concatenate</a></li>
+      <li><a class="nav-link" href="#Reference">Reference</a></li>
+    </ul>
+  </nav>
+  <main id="main-doc">
+    <section class="main-section" id="Introduction">
+      <header>Introduction</header>
+      <article>
+        <p>
+          Pandas is a high-level data manipulation tool developed by Wes McKinney. It is built on the Numpy package and its key data structure is called the DataFrame. DataFrames allow you to store and manipulate tabular data in rows of observations and columns of variables. </p>
+        <p>
+          Some of the key features of Pandas:
+        </p>
+
+  <ul>
+    <li> Supports the integration with many file formats or data sources out of the box (csv, excel, sql, json, parquet,...). <!--Importing data from each of these data sources is provided by function with the prefix read_*. Similarly, the to_* methods are used to store data.--></li>
+        <li>
+         <!-- Selecting or filtering specific rows and/or columns? Filtering the data on a condition?--> Provides methods for slicing, selecting, and extracting the data.
+        </li>
+        <li>
+          Ability to plot your data out of the box through Matplotlib.
+        </li>
+        <li>
+         Data manipulations on a column work elementwise.  There is no need to loop over all rows of your data table to do calculations.
+        </li>
+        <li>
+          Basic statistics and custom aggregations can be applied on the entire data set, a sliding window of the data or grouped by categories.
+        </li>
+        <li>
+           You can melt() your data table from wide to long/tidy form or pivot() from long to wide format. With aggregations built-in, a pivot table is created with a single command.
+        </li>
+        <li>
+          Multiple tables can be concatenated both column wise as row wise and database-like join/merge operations are provided to combine multiple tables of data.
+        </li>
+        <li>
+          Great support for time series and has an extensive set of tools for working with dates, times, and time-indexed data.
+        </li>
+  <li>
+     Pandas provides a wide range of functions to cleaning textual data and extract useful information from it, not only contain numerical data.
+        </li>
+        </ul>
+
+        <p>This is an intriduction to just some of the basic features.</p>
+      </article>
+    </section>
+
+    <section class="main-section" id="File_Formats_and_Data_Sources">
+      <header>File Formats and Data Sources</header>
+      <article>
+        <p>The pandas I/O API is a set of top level reader functions accessed like pandas.read_csv() that generally return a pandas object. The corresponding writer functions are object methods that are accessed like DataFrame.to_csv(). </p>
+    <table style="width:100%", id="t01">
+    <tr>
+      <th>Format Type</th>
+      <th>Data Description</th>
+      <th>Reader</th>
+      <th>Writer</th>
+
+    </tr>
+    <tr>
+      <td>Text</td>
+      <td>CSV</td>
+      <td>read_csv</td>
+      <td>to_csv</td>
+    </tr>
+    <tr>
+      <td>Text</td>
+      <td>Fixed-Width Text File</td>
+      <td>read_fwf</td>
+      <td></td>
+    </tr>
+      <tr>
+      <td>Text</td>
+      <td>JSON</td>
+      <td>read_json</td>
+      <td>to_json</td>
+    </tr>
+      <tr>
+      <td>Text</td>
+      <td>HTML</td>
+      <td>read_html</td>
+      <td>to_html</td>
+    </tr>
+      <tr>
+      <td>Text</td>
+      <td>Local clipboard</td>
+      <td>read_clipboard</td>
+      <td>to_clipboard</td>
+    </tr>
+      <tr>
+      <td></td>
+      <td>MS Excel</td>
+      <td>read_excel</td>
+      <td>to_excel</td>
+    </tr>
+      <tr>
+      <td>Binary</td>
+      <td>OpenDocument</td>
+      <td>read_excel</td>
+      <td></td>
+        <tr>
+      <td>Binary</td>
+      <td>HDF5 Format</td>
+      <td>read_hdf</td>
+      <td>to_hdf</td>
+    </tr>
+      <tr>
+      <td>Binary</td>
+      <td>Feather Format</td>
+      <td>read_feather</td>
+      <td>to_feather</td>
+    </tr>
+      <tr>
+      <td>Binary</td>
+      <td>Parquet Format</td>
+      <td>read_parquet</td>
+      <td>to_parquet</td>
+    </tr>
+      <tr>
+      <td>Binary</td>
+      <td>ORC Format</td>
+      <td>read_orc</td>
+      <td>to_html</td>
+        <tr>
+      <td>Binary</td>
+      <td>Msgpack</td>
+      <td>read_msgpack</td>
+      <td>to_msgpack</td>
+    </tr>
+      <tr>
+      <td>Binary</td>
+      <td>Stata</td>
+      <td>read_stata</td>
+      <td>to_stata</td>
+    </tr>
+      <tr>
+      <td>Binary</td>
+      <td>SAS</td>
+      <td>read_sas</td>
+      <td></td>
+    </tr>
+      <tr>
+      <td>Binary</td>
+      <td>SPSS</td>
+      <td>read_spss</td>
+      <td>to_spss</td>
+    </tr>
+      <tr>
+      <td>Binary</td>
+      <td>Python Pickle Format</td>
+      <td>read_pickle</td>
+      <td>to_pickle</td>
+        <tr>
+      <td>SQL</td>
+      <td>SQL</td>
+      <td>read_sql</td>
+      <td>to_sql</td>
+    </tr>
+      <tr>
+      <td>SQL</td>
+      <td>GoogleBigQuery</td>
+      <td>read_gbq</td>
+      <td>to_gbq</td>
+    </tr>
+  </table>
+        </article>
+    </section>
+    <p></p>
+
+
+    <section class="main-section" id="Selecting_subsets_of_a_table">
+      <header>Selecting subsets of a table</header>
+      <article>
+        <p>
+          The axis labeling information in pandas objects serves many purposes:
+        </p>
+  <ul>
+    <li>
+      Identifies data (i.e. provides metadata) using known indicators, important for analysis, visualization, and interactive console display.
+      </li>
+    <li>
+      Enables automatic and explicit data alignment.
+    </li>
+    <li>
+      Allows intuitive getting and setting of subsets of the data set.
+    </li>
+    </ul>
+        <p>
+          Pandas supports three types of multi-axis indexing.
+        </p>
+        <p>
+          .loc is primarily label based, but may also be used with a boolean array. .loc will raise KeyError when the items are not found. Allowed inputs are:
+          <li>
+            A single label, e.g. 5 or 'a' (Note that 5 is interpreted as a label of the index. This use is not an integer position along the index.).
+          </li>
+          <li>
+            A list or array of labels ['a', 'b', 'c'].
+          </li>
+          <li>
+            A slice object with labels 'a':'f' (Note that contrary to usual python slices, both the start and the stop are included)
+          </li>
+          <li>
+            A boolean array (any NA values will be treated as False).
+          </li>
+          <li>
+            A callable function with one argument (the calling Series or DataFrame) and that returns valid output for indexing (one of the above).
+          </li>
+        </p>
+        <p>
+          .iloc is primarily integer position based (from 0 to length-1 of the axis), but may also be used with a boolean array. .iloc will raise IndexError if a requested indexer is out-of-bounds, except slice indexers which allow out-of-bounds indexing. (this conforms with Python/NumPy slice semantics). Allowed inputs are:
+
+  <li>An integer e.g. 5.
+          </li>
+          <li>
+            A list or array of integers [4, 3, 0].
+          </li>
+          <li>
+            A slice object with ints 1:7.
+          </li>
+          <li>
+            A boolean array (any NA values will be treated as False).
+          </li>
+          <li>
+            A callable function with one argument (the calling Series or DataFrame) and that returns valid output for indexing (one of the above).
+          </li>
+        </p>
+        <p>
+          Getting values from an object with multi-axes selection uses the following notation (using .loc as an example, but the following applies to .iloc as well). Any of the axes accessors may be the null slice :. Axes left out of the specification are assumed to be :, e.g. p.loc['a'] is equivalent to p.loc['a', :, :].
+        </p>
+        <table style="width:100%">
+    <tr>
+      <th>Object Type</th>
+      <th>Indexers</th>
+
+
+    </tr>
+    <tr>
+      <td>Series</td>
+      <td>s.loc[indexer]</td>
+    </tr>
+    <tr>
+      <td>DataFrames</td>
+      <td>df.loc[row_indexer, column_indexer]
+  </td>
+    </tr>
+        </table>
+        <p>
+          The primary function of indexing with [] (a.k.a. __getitem__ for those familiar with implementing class behavior in Python) is selecting out lower-dimensional slices. The following table shows return type values when indexing pandas objects with []:
+        </p>
+        <table style="width:100%">
+    <tr>
+      <th>Object Type</th>
+      <th>Selection</th>
+      <th>Return Value Type</th>
+
+    </tr>
+    <tr>
+      <td>Series</td>
+      <td>series[label]</td>
+      <td>scalar value</td>
+    </tr>
+    <tr>
+      <td>DataFrames</td>
+      <td>frame[colname]</td>
+      <td> series corresponding to colname</td>
+    </tr>
+        </table>
+
+        <p>
+          Here we construct a simple time series data set to use for illustrating the indexing functionality:
+          <code> In [1]: dates = pd.date_range('1/1/2000', periods=8)
+
+  In [2]: df = pd.DataFrame(np.random.randn(8, 4),
+     ...:                   index=dates, columns=['A', 'B', 'C', 'D'])
+     ...:
+
+  In [3]: df
+  Out[3]:
+                     A         B         C         D
+  2000-01-01  0.469112 -0.282863 -1.509059 -1.135632
+  2000-01-02  1.212112 -0.173215  0.119209 -1.044236
+  2000-01-03 -0.861849 -2.104569 -0.494929  1.071804
+  2000-01-04  0.721555 -0.706771 -1.039575  0.271860
+  2000-01-05 -0.424972  0.567020  0.276232 -1.087401
+  2000-01-06 -0.673690  0.113648 -1.478427  0.524988
+  2000-01-07  0.404705  0.577046 -1.715002 -1.039268
+  2000-01-08 -0.370647 -1.157892 -1.344312  0.844885
+  </code>
+        </p>
+        <p>
+          Thus, as per above, we have the most basic indexing using []:
+          <code>
+            In [4]: s = df['A']
+
+  In [5]: s[dates[5]]
+  Out[5]: -0.6736897080883706
+
+          </code>
+        </p>
+        <p>
+          You can pass a list of columns to [] to select columns in that order. If a column is not contained in the DataFrame, an exception will be raised. Multiple columns can also be set in this manner:
+          <code>
+            In [6]: df
+  Out[6]:
+                     A         B         C         D
+  2000-01-01  0.469112 -0.282863 -1.509059 -1.135632
+  2000-01-02  1.212112 -0.173215  0.119209 -1.044236
+  2000-01-03 -0.861849 -2.104569 -0.494929  1.071804
+  2000-01-04  0.721555 -0.706771 -1.039575  0.271860
+  2000-01-05 -0.424972  0.567020  0.276232 -1.087401
+  2000-01-06 -0.673690  0.113648 -1.478427  0.524988
+  2000-01-07  0.404705  0.577046 -1.715002 -1.039268
+  2000-01-08 -0.370647 -1.157892 -1.344312  0.844885
+
+  In [7]: df[['B', 'A']] = df[['A', 'B']]
+
+  In [8]: df
+  Out[8]:
+                     A         B         C         D
+  2000-01-01 -0.282863  0.469112 -1.509059 -1.135632
+  2000-01-02 -0.173215  1.212112  0.119209 -1.044236
+  2000-01-03 -2.104569 -0.861849 -0.494929  1.071804
+  2000-01-04 -0.706771  0.721555 -1.039575  0.271860
+  2000-01-05  0.567020 -0.424972  0.276232 -1.087401
+  2000-01-06  0.113648 -0.673690 -1.478427  0.524988
+  2000-01-07  0.577046  0.404705 -1.715002 -1.039268
+  2000-01-08 -1.157892 -0.370647 -1.344312  0.844885
+          </code>
+        </p>
+
+      </article>
+    </section>
+
+
+    <section class="main-section" id="Join/Merge/Concatenate">
+      <header>Join/Merge/Concatenate</header>
+      <article>
+      <p> Pandas provides various facilities for easily combining together Series or DataFrame with various kinds of set logic for the indexes and relational algebra functionality in the case of join / merge-type operations.
+        </p>
+        <p>
+          The concat() function (in the main pandas namespace) does all of the heavy lifting of performing concatenation operations along an axis while performing optional set logic (union or intersection) of the indexes (if any) on the other axes.
+        </p>
+
+        <code
+          >In [1]: df1 = pd.DataFrame({'A': ['A0', 'A1', 'A2', 'A3'],
+     ...:                     'B': ['B0', 'B1', 'B2', 'B3'],
+     ...:                     'C': ['C0', 'C1', 'C2', 'C3'],
+     ...:                     'D': ['D0', 'D1', 'D2', 'D3']},
+     ...:                    index=[0, 1, 2, 3])
+     ...:
+
+  In [2]: df2 = pd.DataFrame({'A': ['A4', 'A5', 'A6', 'A7'],
+     ...:                     'B': ['B4', 'B5', 'B6', 'B7'],
+     ...:                     'C': ['C4', 'C5', 'C6', 'C7'],
+     ...:                     'D': ['D4', 'D5', 'D6', 'D7']},
+     ...:                    index=[4, 5, 6, 7])
+     ...:
+
+  In [3]: df3 = pd.DataFrame({'A': ['A8', 'A9', 'A10', 'A11'],
+     ...:                     'B': ['B8', 'B9', 'B10', 'B11'],
+     ...:                     'C': ['C8', 'C9', 'C10', 'C11'],
+     ...:                     'D': ['D8', 'D9', 'D10', 'D11']},
+     ...:                    index=[8, 9, 10, 11])
+     ...:
+
+  In [4]: frames = [df1, df2, df3]
+
+  In [5]: result = pd.concat(frames)
+  <p> </p>
+        </code>
+      </article>
+    </section>
+
+
+    <section class="main-section" id="Reference">
+      <header>Reference</header>
+      <article>
+        <ul>
+          <li>
+            All the documentation in this page is taken from
+            <a
+              href="https://pandas.pydata.org/"
+              target="_blank"
+              >PyData</a
+            >
+            and <a
+              href="https://www.learnpython.org/en/Pandas_Basics"
+              target="_blank"
+              >LearnPython</a
+            >.
+          </li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</html>
